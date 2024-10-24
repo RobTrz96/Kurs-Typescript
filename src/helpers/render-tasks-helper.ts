@@ -1,6 +1,6 @@
 import { Task } from "../types";
 
-export const render = (tasks: Task[], tasksContainerElement: HTMLElement) => {
+const render = (tasks: Task[], tasksContainerElement: HTMLElement) => {
     tasksContainerElement.innerHTML = "";
     tasks.forEach((task, index) => {
         const taskElement: HTMLElement = document.createElement("li");
@@ -8,13 +8,15 @@ export const render = (tasks: Task[], tasksContainerElement: HTMLElement) => {
             taskElement.classList.add(task.category);
         }
         const id: string = `task-${index}`;
+
         const labelElement: HTMLLabelElement = document.createElement("label");
-        labelElement.innerText = task.title;
+        labelElement.innerText = task.name;
         labelElement.setAttribute("for", id);
 
-        const checkboxElement: HTMLInputElement = document.createElement("input");
+        const checkboxElement: HTMLInputElement =
+            document.createElement("input");
         checkboxElement.type = "checkbox";
-        checkboxElement.title = task.title;
+        checkboxElement.name = task.name;
         checkboxElement.id = id;
         checkboxElement.checked = task.done;
         checkboxElement.addEventListener("change", () => {
@@ -27,3 +29,5 @@ export const render = (tasks: Task[], tasksContainerElement: HTMLElement) => {
         tasksContainerElement.appendChild(taskElement);
     });
 };
+
+export default render;

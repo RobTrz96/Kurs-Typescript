@@ -1,34 +1,39 @@
-import { renderCategories } from "./helpers/render-categories-helper.js";
-import { render } from "./helpers/render-tasks-helper.js";
+import { Task, Category } from "./types.js";
+import renderTasks from "./helpers/render-tasks-helper.js";
+import { render as renderCategories } from "./helpers/render-categories-helper.js";
 const taskNameInputElement = document.querySelector("#name");
 const addButtonElement = document.querySelector("button");
 const tasksContainerElement = document.querySelector(".tasks");
 const categoriesContainerElement = document.querySelector(".categories");
 let selectedCategory;
-const categories = ["general", "work", "gym", "hobby"];
+const categories = [
+    Category.GENERAL,
+    Category.WORK,
+    Category.GYM,
+    Category.HOBBY,
+    Category.SOCIAL,
+];
 const tasks = [
-    {
-        title: "Wyrzucić śmieci",
-        done: false,
-    },
-    {
-        title: "Zrobić projekt",
-        done: true,
-        category: "work",
-    },
-    {
-        title: "Wyprowadzić psa",
-        done: false,
-        category: "hobby",
-    }
+    new Task("Wyrzucić śmieci", false, Category.HOBBY),
+    new Task("Pójść na siłkę", true, Category.GYM),
+    new Task("Nakarmić koty", false),
 ];
 const addTask = (task) => {
     tasks.push(task);
 };
+const updateSelectedCategory = (newCategory) => {
+    selectedCategory = newCategory;
+};
 addButtonElement.addEventListener("click", (event) => {
     event.preventDefault();
-    addTask({ title: taskNameInputElement.value, done: false, category: selectedCategory });
-    render(tasks, tasksContainerElement);
+    const newTask = new Task(taskNameInputElement.value, false, selectedCategory);
+    addTask(newTask);
+    newTask.logCreationDate("!!!");
+    renderTasks(tasks, tasksContainerElement);
 });
-renderCategories(categories, categoriesContainerElement, selectedCategory);
-render(tasks, tasksContainerElement);
+const task = ["zrobić klatkę", Category.GYM, false];
+const taskName = task[0];
+const taskCategory = task[1];
+const taskDoneStatus = task[2];
+renderCategories(categories, categoriesContainerElement, updateSelectedCategory);
+renderTasks(tasks, tasksContainerElement);

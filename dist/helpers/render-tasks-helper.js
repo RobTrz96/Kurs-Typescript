@@ -1,4 +1,4 @@
-export const render = (tasks, tasksContainerElement) => {
+const render = (tasks, tasksContainerElement) => {
     tasksContainerElement.innerHTML = "";
     tasks.forEach((task, index) => {
         const taskElement = document.createElement("li");
@@ -7,11 +7,11 @@ export const render = (tasks, tasksContainerElement) => {
         }
         const id = `task-${index}`;
         const labelElement = document.createElement("label");
-        labelElement.innerText = task.title;
+        labelElement.innerText = task.name;
         labelElement.setAttribute("for", id);
         const checkboxElement = document.createElement("input");
         checkboxElement.type = "checkbox";
-        checkboxElement.title = task.title;
+        checkboxElement.name = task.name;
         checkboxElement.id = id;
         checkboxElement.checked = task.done;
         checkboxElement.addEventListener("change", () => {
@@ -22,3 +22,4 @@ export const render = (tasks, tasksContainerElement) => {
         tasksContainerElement.appendChild(taskElement);
     });
 };
+export default render;
